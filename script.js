@@ -78,64 +78,68 @@ function getGenre(event) {
 function getData(event) {
   event.preventDefault();
 
-  randomIDGenerator = Math.floor(Math.random() * 1000);
-  console.log(randomIDGenerator);
-  fetch(
-    "https://api.themoviedb.org/3/movie/" +
-      randomIDGenerator +
-      "?api_key=" +
-      tmdbKey +
-      "&language=en-US"
-  )
-    .then((response) => {
-      return response.json();
-    })
-    .then((data) => {
-      if (data.title === undefined) {
-        getData(event);
-      } else {
-        var movieTitleData = data.title;
-        var moviePoster = document.getElementById("poster");
-        var movieIDData = data.id;
-        movieID = movieIDData;
-        console.log(movieIDData);
-
-        console.log(movieTitleData);
-        //console.log(movieTitle);
-        movieTitleElement.text(movieTitleData);
-        movieTitle = movieTitleData;
-        moviePoster.setAttribute("src", imgURL.concat(data.poster_path));
-        // $("#savedMovieContainer").addClass("hidden");
-        $("#saveMovieButton").removeClass("hidden");
-        $(".container").removeAttr("id");
-      }
-    })
-    .then(function getMovieReview() {
-      fetch(
-        "https://www.omdbapi.com/?t=" +
-          movieTitle +
-          "&plot=full&i=tt3896198&apikey=af5f592e"
-      )
-        .then((response) => {
-          return response.json();
-        })
-        .then((data2) => {
-          moviePlot.text(data2.Plot);
-          movieRating.text(data2.Ratings[0].Value);
-          console.log(moviePlot);
-        });
-    });
-}
-
-function choosePath() {
   if (genreInputVal === undefined) {
-    getData();
+    randomIDGenerator = Math.floor(Math.random() * 1000);
+    console.log(randomIDGenerator);
+    fetch(
+      "https://api.themoviedb.org/3/movie/" +
+        randomIDGenerator +
+        "?api_key=" +
+        tmdbKey +
+        "&language=en-US"
+    )
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        if (data.title === undefined) {
+          getData(event);
+        } else {
+          var movieTitleData = data.title;
+          var moviePoster = document.getElementById("poster");
+          var movieIDData = data.id;
+          movieID = movieIDData;
+          console.log(movieIDData);
+
+          console.log(movieTitleData);
+          //console.log(movieTitle);
+          movieTitleElement.text(movieTitleData);
+          movieTitle = movieTitleData;
+          moviePoster.setAttribute("src", imgURL.concat(data.poster_path));
+          // $("#savedMovieContainer").addClass("hidden");
+          $("#saveMovieButton").removeClass("hidden");
+          $(".container").removeAttr("id");
+        }
+      })
+      .then(function getMovieReview() {
+        fetch(
+          "https://www.omdbapi.com/?t=" +
+            movieTitle +
+            "&plot=full&i=tt3896198&apikey=af5f592e"
+        )
+          .then((response) => {
+            return response.json();
+          })
+          .then((data2) => {
+            moviePlot.text(data2.Plot);
+            movieRating.text(data2.Ratings[0].Value);
+            console.log(moviePlot);
+          });
+      });
   } else {
     getGenre();
   }
 }
 
-btnForm.on("click", getData);
+// function choosePath() {
+//   if (genreInputVal === undefined) {
+//     getData();
+//   } else {
+//     getGenre();
+//   }
+// }
+
+btnForm.on("click", getGenre);
 
 var x = 0;
 var movies = Array();
@@ -163,4 +167,9 @@ function displayMovie() {
   }
   document.getElementById("savedMovieContainer").innerHTML = e;
   $("#savedMovieContainer").removeClass("hidden");
+}
+
+function toggleList() {
+  document.getElementById("savedMovieContainer");
+  $("#savedMovieContainer").toggleClass("hidden");
 }

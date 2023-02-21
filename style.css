@@ -58,6 +58,18 @@ p {
   color: white;
   font-weight: 700;
 }
+.button2 {
+  margin: 2em 0 3em 0;
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  height: 4em;
+  width: 15em;
+  border-radius: 10em;
+  background: linear-gradient(45deg, #ff00008c, #ff0046);
+  color: white;
+  font-weight: 500;
+}
 
 .title {
   text-align: center;
